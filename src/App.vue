@@ -4,7 +4,6 @@
     <v-content>
       <Beers/>
     </v-content>
-
     <v-footer :fixed="fixed" app>
       <span>&copy; 2018</span>
     </v-footer>
@@ -20,12 +19,6 @@ export default {
   },
   data () {
     return {
-      clipped: false,
-      drawer: true,
-      fixed: false,
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
       title: 'Beers from Punk API'
         }
       }

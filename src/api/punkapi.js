@@ -5,7 +5,9 @@ export default {
     return {
       beers: [],
       errors: [],
-      loading:true
+      pagination: {},
+      loading:true,
+      switchDegree:true
     }
   },
   mounted() {
@@ -13,9 +15,35 @@ export default {
     .then(response => {
       this.beers = response.data
       this.loading=false
+      this.switchDegree=true
     })
     .catch(e => {
       this.errors.push(e)
     })
+  },
+
+  computed: {
+    filteredItems() {
+      return this.beers.filter((i) => {
+        try{
+          return !this.switchDegree || Number(i.abv)>7
+        } catch(err){return false}
+      })
+    },
+    pages () {
+      if (this.pagination.rowsPerPage == null ||
+        this.pagination.totalItems == null
+      ) return 0
+
+      return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
+    }
+  },
+  watch: {
+    filteredItems () {
+      this.$nextTick(() => {
+        this.pagination.totalItems = this.filteredItems.length
+      })
+    }
   }
+
 }
